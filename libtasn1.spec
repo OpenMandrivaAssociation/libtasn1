@@ -1,6 +1,6 @@
 %define name libtasn1
 %define version 1.1
-%define release %mkrel 1
+%define release %mkrel 2
 %define major 3
 %define libname %mklibname tasn1_ %major
 %define develname %mklibname -d tasn1
@@ -40,7 +40,7 @@ This contains the command line tools to work with ASN.1 data.
 Summary: This is the ASN.1 library used in GNUTLS
 Group: Development/C
 Requires: %libname = %version
-Provides: lib%name-devel = %version-%release
+Provides: %name-devel = %version-%release
 
 %description -n %develname
 Libtasn1 is an implementation of the ASN.1 standard used by GnuTLS and others.
