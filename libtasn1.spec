@@ -13,7 +13,6 @@ Source0: http://josefsson.org/gnutls/releases/libtasn1/%{name}-%{version}.tar.gz
 License: LGPLv2+
 Group: System/Libraries
 Url: http://josefsson.org/libtasn1/
-BuildRoot: %{_tmppath}/%{name}-%{version}-%{release}-buildroot
 
 
 %description
