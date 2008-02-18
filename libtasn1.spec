@@ -5,7 +5,7 @@
 %define libname %mklibname tasn1_ %major
 %define develname %mklibname -d tasn1
 
-Summary: This is the ASN.1 library used in GNUTLS
+Summary: The ASN.1 library used in GNUTLS
 Name: %{name}
 Version: %{version}
 Release: %{release}
@@ -20,7 +20,7 @@ BuildRoot: %{_tmppath}/%{name}-%{version}-%{release}-buildroot
 Libtasn1 is an implementation of the ASN.1 standard used by GnuTLS and others.
 
 %package -n %libname
-Summary: This is the ASN.1 library used in GNUTLS
+Summary: The ASN.1 library used in GNUTLS
 Group: System/Libraries
 
 %description -n %libname
@@ -37,7 +37,7 @@ Libtasn1 is an implementation of the ASN.1 standard used by GnuTLS and others.
 This contains the command line tools to work with ASN.1 data.
 
 %package -n %develname
-Summary: This is the ASN.1 library used in GNUTLS
+Summary: The ASN.1 library used in GNUTLS
 Group: Development/C
 Requires: %libname = %version
 Provides: %name-devel = %version-%release
