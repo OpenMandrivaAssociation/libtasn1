@@ -61,7 +61,6 @@ make check
 %install
 rm -rf %{buildroot}
 %makeinstall_std
-%multiarch_binaries %{buildroot}%{_bindir}/libtasn1-config
 
 %clean
 rm -rf %{buildroot}
@@ -78,7 +77,6 @@ rm -rf %{buildroot}
 %preun -n %{develname}
 %_remove_install_info %{name}.info
 
-
 %files tools
 %defattr(-,root,root)
 %doc NEWS README THANKS
@@ -92,13 +90,10 @@ rm -rf %{buildroot}
 %files -n %{develname}
 %defattr(-,root,root)
 %doc AUTHORS ChangeLog
-%{multiarch_bindir}/libtasn1-config
-%{_bindir}/libtasn1-config
 %{_includedir}/libtasn1.h
 %{_libdir}/libtasn1.a
 %{_libdir}/libtasn1.la
 %{_libdir}/libtasn1.so
 %{_libdir}/pkgconfig/libtasn1.pc
-%{_datadir}/aclocal/libtasn1.m4
 %{_infodir}/libtasn1.info*
 %{_mandir}/man3/*
