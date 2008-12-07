@@ -90,6 +90,7 @@ rm -rf %{buildroot}
 %files -n %{develname}
 %defattr(-,root,root)
 %doc AUTHORS ChangeLog
+%{_bindir}/libtasn1-config
 %{_includedir}/libtasn1.h
 %{_libdir}/libtasn1.a
 %{_libdir}/libtasn1.la
