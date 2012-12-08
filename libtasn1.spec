@@ -5,7 +5,7 @@
 Summary:	The ASN.1 library used in GNUTLS
 Name:		libtasn1
 Version:	2.14
-Release:	1
+Release:	2
 License:	LGPLv2+
 Group:		System/Libraries
 Url:		http://josefsson.org/libtasn1/
@@ -62,16 +62,7 @@ This contains development files and headers for %{name}.
 make check
 
 %install
-
 %makeinstall_std
-
-rm -f %{buildroot}%{_libdir}/*.la
-
-%post -n %{develname}
-%_install_info %{name}.info
-
-%preun -n %{develname}
-%_remove_install_info %{name}.info
 
 %files tools
 %doc NEWS README THANKS
