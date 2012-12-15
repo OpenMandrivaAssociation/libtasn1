@@ -1,4 +1,4 @@
-%define major 3
+%define major	6
 %define libname %mklibname tasn1_ %{major}
 %define devname %mklibname -d tasn1
 
