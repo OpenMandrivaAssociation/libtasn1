@@ -1,11 +1,11 @@
-%define major	6
+%define major 6
 %define libname %mklibname tasn1_ %{major}
 %define devname %mklibname -d tasn1
 
 Summary:	The ASN.1 library used in GNUTLS
 Name:		libtasn1
 Version:	3.2
-Release:	1
+Release:	2
 License:	LGPLv2+
 Group:		System/Libraries
 Url:		http://josefsson.org/libtasn1/
@@ -22,6 +22,7 @@ Libtasn1 is an implementation of the ASN.1 standard used by GnuTLS and others.
 %package -n %{libname}
 Summary:	The ASN.1 library used in GNUTLS
 Group:		System/Libraries
+Obsoletes:	%{mklibname tasn1_ 3} <= 2.14
 
 %description -n %{libname}
 Libtasn1 is an implementation of the ASN.1 standard used by GnuTLS and others.
