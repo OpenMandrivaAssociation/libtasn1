@@ -21,7 +21,6 @@ Libtasn1 is an implementation of the ASN.1 standard used by GnuTLS and others.
 %package -n %{libname}
 Summary:	The ASN.1 library used in GNUTLS
 Group:		System/Libraries
-Obsoletes:	%{mklibname tasn1_ 3} <= 2.14
 
 %description -n %{libname}
 Libtasn1 is an implementation of the ASN.1 standard used by GnuTLS and others.
