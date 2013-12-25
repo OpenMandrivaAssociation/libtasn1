@@ -51,7 +51,7 @@ This contains development files and headers for %{name}.
 
 %build
 %configure2_5x \
-%ifnarch %arm %mips
+%ifnarch %arm %mips aarch64
 	--enable-valgrind-tests
 %endif
 
@@ -75,7 +75,6 @@ make check
 %doc AUTHORS ChangeLog
 %{_includedir}/libtasn1.h
 %{_libdir}/libtasn1.so
-%{_libdir}/libtasn1.a
 %{_libdir}/pkgconfig/libtasn1.pc
 %{_infodir}/libtasn1.info*
 %{_mandir}/man3/*
