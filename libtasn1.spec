@@ -51,6 +51,7 @@ This contains development files and headers for %{name}.
 
 %build
 %configure2_5x \
+	--disable-static \
 %ifnarch %arm %mips aarch64
 	--enable-valgrind-tests
 %endif
