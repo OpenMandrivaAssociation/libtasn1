@@ -11,7 +11,7 @@ Group:		System/Libraries
 Url:		http://josefsson.org/libtasn1/
 Source0:	http://ftp.gnu.org/gnu/libtasn1/%{name}-%{version}.tar.gz
 BuildRequires:	bison
-%ifnarch %arm %mips
+%ifnarch %arm %mips aarch64
 BuildRequires:	valgrind
 %endif
 
