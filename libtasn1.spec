@@ -4,14 +4,14 @@
 
 Summary:	The ASN.1 library used in GNUTLS
 Name:		libtasn1
-Version:	4.1
+Version:	4.2
 Release:	1
 License:	LGPLv2+
 Group:		System/Libraries
 Url:		http://josefsson.org/libtasn1/
 Source0:	http://ftp.gnu.org/gnu/libtasn1/%{name}-%{version}.tar.gz
 BuildRequires:	bison
-%ifnarch %arm %mips aarch64
+%ifnarch %armx %mips
 BuildRequires:	valgrind
 %endif
 
@@ -50,7 +50,7 @@ This contains development files and headers for %{name}.
 %setup -q
 
 %build
-%configure2_5x \
+%configure \
 	--disable-static \
 %ifnarch %arm %mips aarch64
 	--enable-valgrind-tests
