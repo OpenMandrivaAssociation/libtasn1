@@ -2,6 +2,8 @@
 %define libname %mklibname tasn1_ %{major}
 %define devname %mklibname -d tasn1
 
+%global optflags %{optflags} --rtlib=compiler-rt
+
 Summary:	The ASN.1 library used in GNUTLS
 Name:		libtasn1
 Version:	4.13
@@ -10,6 +12,7 @@ License:	LGPLv2+
 Group:		System/Libraries
 Url:		http://josefsson.org/libtasn1/
 Source0:	http://ftp.gnu.org/gnu/libtasn1/%{name}-%{version}.tar.gz
+Patch:		libtasn1-4.13-check-for-__builtin_mul_overflow_p.patch
 BuildRequires:	bison
 BuildRequires:	help2man
 %ifnarch %armx %mips
@@ -48,7 +51,7 @@ Libtasn1 is an implementation of the ASN.1 standard used by GnuTLS and others.
 This contains development files and headers for %{name}.
 
 %prep
-%setup -q
+%autosetup -p1
 
 %build
 %configure \
@@ -57,13 +60,13 @@ This contains development files and headers for %{name}.
 	--enable-valgrind-tests
 %endif
 
-%make
+%make_build
 
 %check
 make check
 
 %install
-%makeinstall_std
+%make_install
 
 %files tools
 %doc NEWS README THANKS
