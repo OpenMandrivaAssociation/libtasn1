@@ -15,6 +15,7 @@ Source0:	http://ftp.gnu.org/gnu/libtasn1/%{name}-%{version}.tar.gz
 Patch:		libtasn1-4.13-check-for-__builtin_mul_overflow_p.patch
 BuildRequires:	bison
 BuildRequires:	help2man
+BuildRequires:	hostname
 %ifnarch %armx %mips
 BuildRequires:	valgrind
 %endif
