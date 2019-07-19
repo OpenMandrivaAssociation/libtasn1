@@ -17,7 +17,7 @@ Patch1:		https://src.fedoraproject.org/rpms/libtasn1/blob/master/f/libtasn1-3.4-
 BuildRequires:	bison
 BuildRequires:	help2man
 BuildRequires:	hostname
-%ifnarch %armx %mips
+%ifnarch %armx %mips %{riscv}
 BuildRequires:	valgrind
 %endif
 
