@@ -7,12 +7,13 @@
 Summary:	The ASN.1 library used in GNUTLS
 Name:		libtasn1
 Version:	4.13
-Release:	2
+Release:	3
 License:	LGPLv2+
 Group:		System/Libraries
 Url:		http://josefsson.org/libtasn1/
 Source0:	http://ftp.gnu.org/gnu/libtasn1/%{name}-%{version}.tar.gz
-Patch:		libtasn1-4.13-check-for-__builtin_mul_overflow_p.patch
+Patch0:		libtasn1-4.13-check-for-__builtin_mul_overflow_p.patch
+Patch1:		https://src.fedoraproject.org/rpms/libtasn1/blob/master/f/libtasn1-3.4-rpath.patch
 BuildRequires:	bison
 BuildRequires:	help2man
 BuildRequires:	hostname
@@ -60,6 +61,9 @@ This contains development files and headers for %{name}.
 %ifnarch %arm %mips aarch64
 	--enable-valgrind-tests
 %endif
+
+# libtasn1 likes to regenerate docs
+touch doc/stamp_docs
 
 %make_build
 
