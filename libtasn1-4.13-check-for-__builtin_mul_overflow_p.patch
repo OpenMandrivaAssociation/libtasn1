@@ -1,8 +1,8 @@
-diff -Naur libtasn1-4.13/configure.ac libtasn1-4.13.tpg/configure.ac
---- libtasn1-4.13/configure.ac	2018-01-16 17:43:54.000000000 +0000
-+++ libtasn1-4.13.tpg/configure.ac	2018-10-01 21:15:28.158814097 +0000
-@@ -37,6 +37,18 @@
- lgl_EARLY
+diff -Naur libtasn1-4.14/configure.ac libtasn1-4.14.tpg/configure.ac
+--- libtasn1-4.14/configure.ac	2019-07-19 19:08:11.000000000 +0000
++++ libtasn1-4.14.tpg/configure.ac	2019-07-27 21:13:40.408909908 +0000
+@@ -46,6 +46,18 @@
+ gl_EARLY
  AC_PROG_YACC
  
 +AC_CACHE_CHECK([for gcc 7-compatible __builtin_mul_overflow_p],
@@ -20,12 +20,12 @@ diff -Naur libtasn1-4.13/configure.ac libtasn1-4.13.tpg/configure.ac
  AC_ARG_ENABLE(doc,
    AS_HELP_STRING([--disable-doc], [don't generate any documentation]),
      enable_doc=$enableval, enable_doc=yes)
-diff -Naur libtasn1-4.13/lib/gllib/intprops.h libtasn1-4.13.tpg/lib/gllib/intprops.h
---- libtasn1-4.13/lib/gllib/intprops.h	2017-01-16 17:46:58.000000000 +0000
-+++ libtasn1-4.13.tpg/lib/gllib/intprops.h	2018-10-01 21:21:27.301809131 +0000
-@@ -239,14 +239,11 @@
- /* True if __builtin_add_overflow (A, B, P) works when P is non-null.  */
- #define _GL_HAS_BUILTIN_OVERFLOW (5 <= __GNUC__)
+diff -Naur libtasn1-4.14/lib/gl/intprops.h libtasn1-4.14.tpg/lib/gl/intprops.h
+--- libtasn1-4.14/lib/gl/intprops.h	2019-07-19 17:56:26.000000000 +0000
++++ libtasn1-4.14.tpg/lib/gl/intprops.h	2019-07-27 21:15:53.768506393 +0000
+@@ -227,14 +227,11 @@
+ # define _GL_HAS_BUILTIN_OVERFLOW 0
+ #endif
  
 -/* True if __builtin_add_overflow_p (A, B, C) works.  */
 -#define _GL_HAS_BUILTIN_OVERFLOW_P (7 <= __GNUC__)
@@ -39,7 +39,7 @@ diff -Naur libtasn1-4.13/lib/gllib/intprops.h libtasn1-4.13.tpg/lib/gllib/intpro
  # define _GL_ADD_OVERFLOW(a, b, min, max)                               \
     __builtin_add_overflow_p (a, b, (__typeof__ ((a) + (b))) 0)
  # define _GL_SUBTRACT_OVERFLOW(a, b, min, max)                          \
-@@ -332,7 +329,7 @@
+@@ -320,7 +317,7 @@
    _GL_BINARY_OP_OVERFLOW (a, b, _GL_ADD_OVERFLOW)
  #define INT_SUBTRACT_OVERFLOW(a, b) \
    _GL_BINARY_OP_OVERFLOW (a, b, _GL_SUBTRACT_OVERFLOW)
