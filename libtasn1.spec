@@ -74,7 +74,7 @@ make check
 %make_install
 
 %files tools
-%doc NEWS README THANKS
+%doc NEWS THANKS
 %{_bindir}/asn*
 %{_mandir}/man1/asn*
 
