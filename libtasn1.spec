@@ -1,8 +1,9 @@
 %define major 6
 %define libname %mklibname tasn1_ %{major}
 %define devname %mklibname -d tasn1
-
+%ifnarch %{riscv}
 %global optflags %{optflags} --rtlib=compiler-rt
+%endif
 
 Summary:	The ASN.1 library used in GNUTLS
 Name:		libtasn1
