@@ -69,7 +69,7 @@ touch doc/stamp_docs
 %make_build
 
 %check
-make check
+make check || cat tests/test-suite.log && exit 1
 
 %install
 %make_install
