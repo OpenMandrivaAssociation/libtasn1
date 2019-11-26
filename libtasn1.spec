@@ -78,6 +78,7 @@ make check || cat tests/test-suite.log && exit 0
 %files tools
 %doc NEWS THANKS
 %{_bindir}/asn*
+%{_bindir}/corpus2array
 %{_mandir}/man1/asn*
 
 %files -n %{libname}
