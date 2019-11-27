@@ -71,7 +71,8 @@ touch doc/stamp_docs
 %check
 # (tpg) https://gitlab.com/gnutls/libtasn1/issues/9
 make check ||:
-[ -e tests/test-suite.log ] && cat tests/test-suite.log
+[ -e tests/test-suite.log ] && cat tests/test-suite.log && exit 0
+[ -e fuzz/test-suite.log ] && cat fuzz/test-suite.log && exit 0
 
 %install
 %make_install
