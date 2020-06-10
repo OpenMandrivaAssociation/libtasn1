@@ -1,14 +1,18 @@
+# libtasn1 is used by gnutls, gnutls is used by wine
+%ifarch %{x86_64}
+%bcond_without compat32
+%endif
+
 %define major 6
 %define libname %mklibname tasn1_ %{major}
 %define devname %mklibname -d tasn1
-%ifnarch %{riscv}
-%global optflags %{optflags} --rtlib=compiler-rt
-%endif
+%define lib32name %mklib32name tasn1_ %{major}
+%define dev32name %mklib32name -d tasn1
 
 Summary:	The ASN.1 library used in GNUTLS
 Name:		libtasn1
 Version:	4.16.0
-Release:	1
+Release:	2
 License:	LGPLv2+
 Group:		System/Libraries
 Url:		http://josefsson.org/libtasn1/
@@ -46,36 +50,72 @@ This contains the command line tools to work with ASN.1 data.
 Summary:	The ASN.1 development files
 Group:		Development/C
 Requires:	%{libname} = %{version}-%{release}
-Provides:	%{name}-devel = %{version}-%{release}
 
 %description -n %{devname}
 Libtasn1 is an implementation of the ASN.1 standard used by GnuTLS and others.
 
 This contains development files and headers for %{name}.
 
+%if %{with compat32}
+%package -n %{lib32name}
+Summary:	The ASN.1 library used in GNUTLS (32-bit)
+Group:		System/Libraries
+
+%description -n %{lib32name}
+Libtasn1 is an implementation of the ASN.1 standard used by GnuTLS and others.
+
+%package -n %{dev32name}
+Summary:	The ASN.1 development files (32-bit)
+Group:		Development/C
+Requires:	%{devname} = %{version}-%{release}
+Requires:	%{lib32name} = %{version}-%{release}
+
+%description -n %{dev32name}
+Libtasn1 is an implementation of the ASN.1 standard used by GnuTLS and others.
+
+This contains development files and headers for %{name}.
+%endif
+
 %prep
 %autosetup -p1
 
-%build
+export CONFIGURE_TOP="$(pwd)"
+
+%if %{with compat32}
+mkdir build32
+cd build32
+%configure32
+# libtasn1 likes to regenerate docs
+touch doc/stamp_docs
+cd ..
+%endif
+
+mkdir build
+cd build
 %configure \
-	--disable-static \
 %ifnarch %arm %mips aarch64
 	--enable-valgrind-tests
 %endif
-
 # libtasn1 likes to regenerate docs
 touch doc/stamp_docs
 
-%make_build
+%build
+%if %{with compat32}
+%make_build -C build32
+%endif
+%make_build -C build
 
 %check
 # (tpg) https://gitlab.com/gnutls/libtasn1/issues/9
-make check ||:
-[ -e tests/test-suite.log ] && cat tests/test-suite.log && exit 0
-[ -e fuzz/test-suite.log ] && cat fuzz/test-suite.log && exit 0
+make -C build check ||:
+[ -e tests/test-suite.log ] && cat tests/test-suite.log || :
+[ -e fuzz/test-suite.log ] && cat fuzz/test-suite.log || :
 
 %install
-%make_install
+%if %{with compat32}
+%make_install -C build32
+%endif
+%make_install -C build
 
 %files tools
 %doc NEWS THANKS
@@ -93,3 +133,12 @@ make check ||:
 %{_libdir}/pkgconfig/libtasn1.pc
 %{_infodir}/libtasn1.info*
 %{_mandir}/man3/*
+
+%if %{with compat32}
+%files -n %{lib32name}
+%{_prefix}/lib/libtasn1.so.%{major}*
+
+%files -n %{dev32name}
+%{_prefix}/lib/libtasn1.so
+%{_prefix}/lib/pkgconfig/libtasn1.pc
+%endif
