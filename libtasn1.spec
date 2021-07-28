@@ -6,13 +6,15 @@
 %define major 6
 %define libname %mklibname tasn1_ %{major}
 %define devname %mklibname -d tasn1
+%define sdevname %mklibname -d -s tasn1
 %define lib32name %mklib32name tasn1_ %{major}
 %define dev32name %mklib32name -d tasn1
+%define sdev32name %mklib32name -d -s tasn1
 
 Summary:	The ASN.1 library used in GNUTLS
 Name:		libtasn1
 Version:	4.17.0
-Release:	1
+Release:	2
 License:	LGPLv2+
 Group:		System/Libraries
 Url:		http://josefsson.org/libtasn1/
@@ -56,6 +58,17 @@ Libtasn1 is an implementation of the ASN.1 standard used by GnuTLS and others.
 
 This contains development files and headers for %{name}.
 
+%package -n %{sdevname}
+Summary:	The ASN.1 static library
+Group:		Development/C
+Requires:	%{devname} = %{version}-%{release}
+Provides:	tasn1-static-devel = %{EVRD}
+
+%description -n %{sdevname}
+Libtasn1 is an implementation of the ASN.1 standard used by GnuTLS and others.
+
+This contains development the static library for %{name}.
+
 %if %{with compat32}
 %package -n %{lib32name}
 Summary:	The ASN.1 library used in GNUTLS (32-bit)
@@ -74,6 +87,16 @@ Requires:	%{lib32name} = %{version}-%{release}
 Libtasn1 is an implementation of the ASN.1 standard used by GnuTLS and others.
 
 This contains development files and headers for %{name}.
+
+%package -n %{sdev32name}
+Summary:	The ASN.1 static library (32-bit)
+Group:		Development/C
+Requires:	%{dev32name} = %{version}-%{release}
+
+%description -n %{sdev32name}
+Libtasn1 is an implementation of the ASN.1 standard used by GnuTLS and others.
+
+This contains the static library for %{name}.
 %endif
 
 %prep
@@ -84,7 +107,8 @@ export CONFIGURE_TOP="$(pwd)"
 %if %{with compat32}
 mkdir build32
 cd build32
-%configure32
+%configure32 \
+	--enable-static
 # libtasn1 likes to regenerate docs
 touch doc/stamp_docs
 cd ..
@@ -93,6 +117,7 @@ cd ..
 mkdir build
 cd build
 %configure \
+	--enable-static \
 %ifnarch %arm %mips aarch64
 	--enable-valgrind-tests
 %endif
@@ -134,6 +159,9 @@ make -C build check ||:
 %{_infodir}/libtasn1.info*
 %{_mandir}/man3/*
 
+%files -n %{sdevname}
+%{_libdir}/libtasn1.a
+
 %if %{with compat32}
 %files -n %{lib32name}
 %{_prefix}/lib/libtasn1.so.%{major}*
@@ -141,4 +169,7 @@ make -C build check ||:
 %files -n %{dev32name}
 %{_prefix}/lib/libtasn1.so
 %{_prefix}/lib/pkgconfig/libtasn1.pc
+
+%files -n %{sdev32name}
+%{_prefix}/lib/libtasn1.a
 %endif
