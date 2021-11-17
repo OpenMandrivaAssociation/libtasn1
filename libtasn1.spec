@@ -13,18 +13,18 @@
 
 Summary:	The ASN.1 library used in GNUTLS
 Name:		libtasn1
-Version:	4.17.0
-Release:	2
+Version:	4.18.0
+Release:	1
 License:	LGPLv2+
 Group:		System/Libraries
 Url:		http://josefsson.org/libtasn1/
 Source0:	http://ftp.gnu.org/gnu/libtasn1/%{name}-%{version}.tar.gz
-#Patch0:		libtasn1-4.13-check-for-__builtin_mul_overflow_p.patch
-Patch1:		https://src.fedoraproject.org/rpms/libtasn1/blob/master/f/libtasn1-3.4-rpath.patch
+Patch0:		https://src.fedoraproject.org/rpms/libtasn1/blob/master/f/libtasn1-3.4-rpath.patch
+Patch1:		libtasn1-4.18.0-clang.patch
 BuildRequires:	bison
 BuildRequires:	help2man
 BuildRequires:	hostname
-%ifnarch %armx %mips %{riscv}
+%ifnarch %{armx} %mips %{riscv}
 BuildRequires:	valgrind
 %endif
 
@@ -118,7 +118,7 @@ mkdir build
 cd build
 %configure \
 	--enable-static \
-%ifnarch %arm %mips aarch64
+%ifnarch %{armx} %{mips} %{riscv}
 	--enable-valgrind-tests
 %endif
 # libtasn1 likes to regenerate docs
@@ -145,8 +145,7 @@ make -C build check ||:
 %files tools
 %doc NEWS THANKS
 %{_bindir}/asn*
-#% {_bindir}/corpus2array
-%{_mandir}/man1/asn*
+%doc %{_mandir}/man1/asn*
 
 %files -n %{libname}
 %{_libdir}/libtasn1.so.%{major}*
@@ -156,8 +155,8 @@ make -C build check ||:
 %{_includedir}/libtasn1.h
 %{_libdir}/libtasn1.so
 %{_libdir}/pkgconfig/libtasn1.pc
-%{_infodir}/libtasn1.info*
-%{_mandir}/man3/*
+%doc %{_infodir}/libtasn1.info*
+%doc %{_mandir}/man3/*
 
 %files -n %{sdevname}
 %{_libdir}/libtasn1.a
