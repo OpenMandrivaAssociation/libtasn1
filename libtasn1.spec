@@ -27,6 +27,9 @@ BuildRequires:	hostname
 %ifnarch %{armx} %mips %{riscv}
 BuildRequires:	valgrind
 %endif
+%if %{with compat32}
+BuildRequires:	libc6
+%endif
 
 %description
 Libtasn1 is an implementation of the ASN.1 standard used by GnuTLS and others.
