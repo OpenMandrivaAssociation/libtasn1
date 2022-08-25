@@ -13,7 +13,7 @@
 
 Summary:	The ASN.1 library used in GNUTLS
 Name:		libtasn1
-Version:	4.18.0
+Version:	4.19.0
 Release:	1
 License:	LGPLv2+
 Group:		System/Libraries
