@@ -25,6 +25,7 @@ Patch1:		libtasn1-4.18.0-clang.patch
 BuildRequires:	bison
 BuildRequires:	help2man
 BuildRequires:	hostname
+BuildRequires:	slibtool
 %ifnarch %{armx} %mips %{riscv}
 BuildRequires:	valgrind
 %endif
