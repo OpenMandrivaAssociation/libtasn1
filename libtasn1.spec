@@ -4,7 +4,8 @@
 %endif
 
 %define major 6
-%define libname %mklibname tasn1_ %{major}
+%define oldlibname %mklibname tasn1_ 6
+%define libname %mklibname tasn1
 %define devname %mklibname -d tasn1
 %define sdevname %mklibname -d -s tasn1
 %define lib32name %mklib32name tasn1_ %{major}
@@ -14,7 +15,7 @@
 Summary:	The ASN.1 library used in GNUTLS
 Name:		libtasn1
 Version:	4.19.0
-Release:	3
+Release:	4
 License:	LGPLv2+
 Group:		System/Libraries
 Url:		http://josefsson.org/libtasn1/
@@ -30,6 +31,8 @@ BuildRequires:	valgrind
 %if %{with compat32}
 BuildRequires:	libc6
 %endif
+BuildSystem:	autotools
+BuildOption:	--enable-static
 
 %description
 Libtasn1 is an implementation of the ASN.1 standard used by GnuTLS and others.
@@ -37,6 +40,7 @@ Libtasn1 is an implementation of the ASN.1 standard used by GnuTLS and others.
 %package -n %{libname}
 Summary:	The ASN.1 library used in GNUTLS
 Group:		System/Libraries
+%rename %{oldlibname}
 
 %description -n %{libname}
 Libtasn1 is an implementation of the ASN.1 standard used by GnuTLS and others.
@@ -102,78 +106,20 @@ Libtasn1 is an implementation of the ASN.1 standard used by GnuTLS and others.
 This contains the static library for %{name}.
 %endif
 
-%prep
-%autosetup -p1
-
-export CONFIGURE_TOP="$(pwd)"
-
-%if %{with compat32}
-mkdir build32
-cd build32
-%configure32 \
-	--enable-static
-# libtasn1 likes to regenerate docs
-touch doc/stamp_docs
-cd ..
-%endif
-
-mkdir build
-cd build
-%configure \
-	--enable-static \
-%ifnarch %{armx} %{mips} %{riscv}
-	--enable-valgrind-tests
-%endif
-# libtasn1 likes to regenerate docs
-touch doc/stamp_docs
-
-%build
-%if %{with compat32}
-%make_build -C build32
-%endif
-%make_build -C build
-
-# (tpg) strip LTO from "LLVM IR bitcode" files
-check_convert_bitcode() {
-    printf '%s\n' "Checking for LLVM IR bitcode"
-    llvm_file_name=$(realpath ${1})
-    llvm_file_type=$(file ${llvm_file_name})
-
-    if printf '%s\n' "${llvm_file_type}" | grep -q "LLVM IR bitcode"; then
-# recompile without LTO
-    clang %{optflags} -fno-lto -Wno-unused-command-line-argument -x ir ${llvm_file_name} -c -o ${llvm_file_name}
-    elif printf '%s\n' "${llvm_file_type}" | grep -q "current ar archive"; then
-    printf '%s\n' "Unpacking ar archive ${llvm_file_name} to check for LLVM bitcode components."
-# create archive stage for objects
-    archive_stage=$(mktemp -d)
-    archive=${llvm_file_name}
-    cd ${archive_stage}
-    ar x ${archive}
-    for archived_file in $(find -not -type d); do
-        check_convert_bitcode ${archived_file}
-        printf '%s\n' "Repacking ${archived_file} into ${archive}."
-        ar r ${archive} ${archived_file}
-    done
-    ranlib ${archive}
-    cd ..
-    fi
-}
-
-for i in $(find %{buildroot} -type f -name "*.[ao]"); do
-    check_convert_bitcode ${i}
-done
+%prep -a
+# Force regenerate autotools files so they
+# don't hardcode "automake-1.16" references
+# when we have automake 1.17
+slibtoolize --force
+aclocal -I m4 -I src/gl/m4
+automake -a
+autoconf
 
 %check
 # (tpg) https://gitlab.com/gnutls/libtasn1/issues/9
-make -C build check ||:
+make -C _OMV_rpm_build check ||:
 [ -e tests/test-suite.log ] && cat tests/test-suite.log || :
 [ -e fuzz/test-suite.log ] && cat fuzz/test-suite.log || :
-
-%install
-%if %{with compat32}
-%make_install -C build32
-%endif
-%make_install -C build
 
 %files tools
 %doc NEWS THANKS
