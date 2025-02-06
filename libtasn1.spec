@@ -14,14 +14,14 @@
 
 Summary:	The ASN.1 library used in GNUTLS
 Name:		libtasn1
-Version:	4.19.0
-Release:	4
+Version:	4.20.0
+Release:	1
 License:	LGPLv2+
 Group:		System/Libraries
 Url:		https://josefsson.org/libtasn1/
 Source0:	http://ftp.gnu.org/gnu/libtasn1/%{name}-%{version}.tar.gz
 Patch0:		https://src.fedoraproject.org/rpms/libtasn1/blob/master/f/libtasn1-3.4-rpath.patch
-Patch1:		libtasn1-4.18.0-clang.patch
+#Patch1:		libtasn1-4.18.0-clang.patch
 BuildRequires:	bison
 BuildRequires:	help2man
 BuildRequires:	hostname
