@@ -30,6 +30,7 @@ BuildRequires:	bison
 BuildRequires:	help2man
 BuildRequires:	hostname
 BuildRequires:	slibtool
+BuildRequires:  texinfo
 %ifnarch %{armx} %mips %{riscv}
 BuildRequires:	valgrind
 %endif
